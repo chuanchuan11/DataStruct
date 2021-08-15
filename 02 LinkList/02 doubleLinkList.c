@@ -32,26 +32,26 @@ void head_insert(pDlinkList pHead, int value)
 	pDlinkList pTemp = pHead;
 	pDlinkList pNewNode = NULL;
 
-  pNewNode = (pDlinkList)malloc(sizeof(DLinkList));
+	pNewNode = (pDlinkList)malloc(sizeof(DLinkList));
 
-  if(empty_DlinkList(pTemp)) //为空时插入
-  {
-    pNewNode->data = value;
+	if(empty_DlinkList(pTemp)) //为空时插入
+	{
+		pNewNode->data = value;
 
-    pNewNode->pre = pHead;        
-    pNewNode->next = pHead->next;
-    //pHead->next->pre = pNewNode; 为NULL
-    pHead->next = pNewNode;	
-  }
-  else
-  {
-    pNewNode->data = value;
+		pNewNode->pre = pHead;        
+		pNewNode->next = pHead->next;
+		//pHead->next->pre = pNewNode; 为NULL
+		pHead->next = pNewNode;	
+	}
+	else
+	{
+		pNewNode->data = value;
 
-    pNewNode->pre = pHead;
-    pNewNode->next = pHead->next;  
-    pHead->next->pre = pNewNode;    
-    pHead->next = pNewNode;	 
-  }
+		pNewNode->pre = pHead;
+		pNewNode->next = pHead->next;  
+		pHead->next->pre = pNewNode;    
+		pHead->next = pNewNode;	 
+	}
 }
 
 //位置插
@@ -71,13 +71,12 @@ void pos_insert(pDlinkList pHead, int pos, int value)
 	{
 		pNewNode = (pDlinkList)malloc(sizeof(DLinkList)); 
 
-    pNewNode->data = value;
+		pNewNode->data = value;
 
-    pNewNode->pre = pTemp->pre;
-    pNewNode->next = pTemp;
-    pTemp->pre->next = pNewNode;  //注意不能与下方的顺序反
-    pTemp->pre = pNewNode;
-		
+		pNewNode->pre = pTemp->pre;
+		pNewNode->next = pTemp;
+		pTemp->pre->next = pNewNode;  //注意不能与下方的顺序反
+		pTemp->pre = pNewNode;	
 	}
 }
 
@@ -87,19 +86,19 @@ void delete_value(pDlinkList pHead, int pos)
 	pDlinkList pTemp =  pHead;
 	int i = 0;
 
-  while(pTemp != NULL && i<pos)
-  {
-    pTemp = pTemp->next;
-    i++;
-  }
-  if(pTemp == NULL || i>pos)  return;
-  else
-  {
-    pTemp->pre->next = pTemp->next;
-    pTemp->next->pre = pTemp->pre;
-    free(pTemp);
-    pTemp = NULL;
-  }
+	while(pTemp != NULL && i<pos)
+	{
+	pTemp = pTemp->next;
+	i++;
+	}
+	if(pTemp == NULL || i>pos)  return;
+	else
+	{
+	pTemp->pre->next = pTemp->next;
+	pTemp->next->pre = pTemp->pre;
+	free(pTemp);
+	pTemp = NULL;
+	}
 }
 
 //改
@@ -108,16 +107,17 @@ void change_value(pDlinkList pHead, int pos, int value)
 	pDlinkList pTemp = pHead;
 	int i = 0;
 
-  while(pTemp != NULL && i<pos)  //查位置
-  {
-    pTemp = pTemp->next;
-    i++;
-  }
-  if(pTemp == NULL || i>pos) return; 
-  else
-  {
-    pTemp->data = value;
-  }
+	while(pTemp != NULL && i<pos)  //查位置
+	{
+		pTemp = pTemp->next;
+		i++;
+	}
+	
+	if(pTemp == NULL || i>pos) return; 
+	else
+	{
+		pTemp->data = value;
+	}
 }
 
 
