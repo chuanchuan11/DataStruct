@@ -1,0 +1,110 @@
+//结点定义
+typedef struct node
+{
+	int data;
+	struct node * pnext;
+}Node, *pNode;
+
+//队列结构定义
+typedef struct queue
+{
+	pNode pFront;  //指向队头结点
+	pNode pRear;   //指向队尾结点
+	int count;     //队列长度
+}Queue, *pQueue;
+
+//初始化
+pQueue init_queue()
+{
+	pQueue que = (pQueue)malloc(sizeof(Queue));  //动态申请一个队列
+	
+	//队头结点和队尾结点不存放数据
+	pNode front = (pNode)malloc(sizeof(Node));   //队头结点
+	pNode rear  = (pNode)malloc(sizeof(Node));   //队尾结点
+	front->data = -1;
+	front->pnext = NULL;
+	rear->data  = -1;
+	rear->pnext = NULL;
+
+	//队头指针和队尾指针永远指向队头结点和队尾结点
+	que->pFront = front;
+	que->pRear = rear;
+	que->count = 0;
+
+	return que;
+}
+
+//为空
+bool is_empty(pQueue queue)
+{
+	return queue->count == 0? true:false;
+}
+
+//入队
+void in_queue(pQueue queue, int value)
+{
+	pNode newNode = (pNode)malloc(sizeof(Node));
+	newNode->data = value;     //新结点赋值
+	newNode->pnext = NULL;	   //新结点指向空
+	if(is_empty(queue))
+	{
+		queue->pFront->pnext = newNode;		    //首个有效结点必须让队头结点也连接到
+	}
+	else
+	{
+		queue->pRear->pnext->pnext = newNode; //除了首个有效结点外，新结点都添加到尾结点之前
+	}
+	queue->pRear->pnext = newNode;  //移动队尾结点指向
+	queue->count++;                 //队列元素增加
+}
+
+//出队
+int out_queue(pQueue queue)
+{
+	int value = -1;
+	if(is_empty(queue))
+	{
+		printf("empty queue \n");
+	}
+	else
+	{
+		pNode pTemp = queue->pFront->pnext;     //取队头首结点
+		value = pTemp->data;			              //取队头首结点值
+		queue->pFront->pnext = pTemp->pnext;	  //移动队头结点指向
+		free(pTemp);						                //释放废弃结点
+		pTemp = NULL;
+		queue->count--;
+	}
+	return value;
+}
+
+//清除
+void clear(pQueue queue)
+{
+	pNode pTemp = NULL;
+	while(queue->count)
+	{
+		pTemp = queue->pFront->pnext;         //取队头结点
+		queue->pFront->pnext = pTemp->pnext;  //移动队头结点指向
+		free(pTemp);  //释放
+		pTemp=NULL;
+		queue->count--;
+	}
+	queue->pRear->pnext = NULL; //队尾结点指向空
+}
+
+//遍历
+void traverse(pQueue queue)
+{
+	int i = queue->count;               //队列元素个数
+	pNode pTemp = queue->pFront->pnext; //首个结点
+	while(i>0)
+	{
+		printf("%d ", pTemp->data);
+		pTemp = pTemp->pnext;
+		i--;
+	}
+	printf("\n");
+}
+
+
