@@ -94,7 +94,23 @@ void post_order_BT(pBTnode root)
 	}
 }
 
-
+//层次遍历
+void level_traverse(pBTnode root)
+{
+	//创建队列
+	pQueue que = init_queue();
+	while(root != NULL)
+	{
+		printf("%c", root->data);
+		if(root->Lchild != NULL) in_queue(que,*(root->Lchild)); //入队
+		if(root->Rchild != NULL) in_queue(que,*(root->Rchild)); //入队
+		if(is_empty(que))
+			root = &(out_queue(que)); //出队
+		else
+			break;
+	}
+	
+}
 
 
 
