@@ -1,0 +1,77 @@
+
+//先序非递归遍历
+void pre_order_none_recursive(pBTnode pRoot)
+{
+	Stack S1;
+	init_stack(&S1);                //初始化栈
+	pBTnode pTemp = pRoot;
+
+	while(pTemp != NULL || !is_empty(S1))
+	{
+		printf("%c ", pTemp->data);  //先访问根
+		if(pTemp->Rchild != NULL) push_stack(&S1, pTemp->Rchild); //右子树非空则存储
+		if(pTemp->Lchild != NULL) 
+			pTemp = pTemp->Lchild;     //左子树非空则访问
+		else	  
+			pTemp = pop_stack(&S1);    //左子树为空则读栈
+	}
+}
+
+//中序非递归遍历
+void in_order_none_recursive(pBTnode pRoot)
+{
+	Stack S1;
+	init_stack(&S1);                       //初始化栈
+	pBTnode pTemp = pRoot;
+
+	while(pTemp != NULL || !is_empty(S1))  //根不为空，初次栈为空，后边不为空
+	{
+		if(pTemp != NULL) 
+		{
+			push_stack(&S1, pTemp);     //根结点非空则存储
+			pTemp = pTemp->Lchild;      //遍历左子树
+		}
+		else
+		{	     
+				pTemp = pop_stack(&S1);      //读栈
+				printf("%c ", pTemp->data);  //访问根
+				pTemp = pTemp->Rchild;       //存储右子树的左子树		
+		}
+	}
+}
+
+//后序非递归遍历
+void post_order_none_recursive(pBTnode pRoot)
+{
+	Stack S1;
+	init_stack(&S1);           //初始化栈
+	pBTnode pTemp = pRoot;
+	pBTnode last = NULL;       //存储上次出栈结点
+
+	while(pTemp != NULL || !is_empty(S1))  //根不为空，初次栈为空，后边不为空
+	{
+		if(pTemp != NULL) 
+		{
+			push_stack(&S1, pTemp);     //非空存储根结点
+			pTemp = pTemp->Lchild;      //左子树
+		}
+		else
+		{	     
+				pTemp = get_top(&S1);     //获取栈顶，但不出栈
+				if(pTemp->Rchild != NULL && pTemp->Rchild != last)
+				{
+					push_stack(&S1, pTemp->Rchild);     //存右子树根结点
+					pTemp = pTemp->Rchild->Lchild;      //转到右子树的左子树
+				}
+				else //出栈
+				{
+					pTemp = pop_stack(&S1);       //获取栈顶
+					printf("%c ", pTemp->data);   //访问根
+					last = pTemp;		     //记录访问过的结点
+					pTemp = NULL;        //置空进行下一次访问	
+				}
+		}
+	}
+}
+
+
